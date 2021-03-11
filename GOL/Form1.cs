@@ -15,6 +15,7 @@ namespace GOL
         // The universe array
         bool[,] universe = new bool[30, 30];
         bool[,] scratchPad = new bool[30, 30];
+        //bool[,] tempPad = new bool[30, 30];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -47,49 +48,63 @@ namespace GOL
                 {
                     int countNbr = CountNeighborsToroidal(x, y); //returns neighbor count
 
-                    //apply the rules(determines whether current cell lives or dies)
-                    #region Rules
-                 
-                    //Rule A
-                    if (universe[x,y] == true && countNbr < 2)     //die if less than 2 neighbors  
+                    #region cleaner rules      
+                    //apply the rules(determine whether current cell lives or dies)
+                    if (universe[x,y] == true) //if cell is on
                     {
-                        universe[x, y] = false;
-                        scratchPad[x, y] = false;
+                        if (countNbr < 2) scratchPad[x, y] = false; //A
+                        if (countNbr > 3) scratchPad[x, y] = false; //B
+                        if (countNbr == 2 || countNbr == 3) scratchPad[x, y] = true; //C
                     }
+                    else if (universe[x,y] == false) //if cell is off
+                    {
+                        if (countNbr == 3) scratchPad[x, y] = true; //D
+                    }
+                    #endregion
 
-                    //Rule B
-                    if (universe[x, y] == true && countNbr > 3)     //die if more than 3 neighbors
-                    {
-                        universe[x, y] = false;
-                        scratchPad[x, y] = false;
-                    }
+                    #region commented rules             
+                    ////Rule A
+                    //if (universe[x, y] == true && countNbr < 2)     //die if less than 2 neighbors  
+                    //{
+                    //    //universe[x, y] = false;
+                    //    scratchPad[x, y] = false;
+                    //}
 
-                    //Rule C
-                    if (universe[x, y] == true && countNbr == 2 || countNbr == 3)      //stay the same if 2-3 neighbors     
-                    {
-                        universe[x, y] = true;
-                        scratchPad[x, y] = true;
-                    }
+                    ////Rule B
+                    //if (universe[x, y] == true && countNbr > 3)     //die if more than 3 neighbors
+                    //{
+                    //    //universe[x, y] = false;
+                    //    scratchPad[x, y] = false;
+                    //}
 
-                    //Rule D
-                    if (universe[x, y] == false && countNbr == 3) //cells reborn
-                    {
-                        universe[x, y] = true;
-                        scratchPad[x, y] = true;
-                    }
-                    
+                    ////Rule C
+                    //if (universe[x, y] == true && countNbr == 2 || countNbr == 3)      //stay the same if 2-3 neighbors     
+                    //{
+                    //    //universe[x, y] = true;
+                    //    scratchPad[x, y] = true;
+                    //}
+
+                    ////Rule D
+                    //if (universe[x, y] == false && countNbr == 3) //cells reborn
+                    //{
+                    //    //universe[x, y] = true;
+                    //    scratchPad[x, y] = true;
+                    //}
                     #endregion
                     //after you decide whether the cell lives or dies, turn on/off in scratchPad (second array)
                 }
             }
             //copy everything from scratchPad to universe
-            scratchPad = universe;
+
+            universe = scratchPad;
+            //scratchPad = universe;
 
             // Increment generation count
             generations++;
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            graphicsPanel1.Invalidate();
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -159,7 +174,7 @@ namespace GOL
 
                 // Toggle the cell's state
                 universe[x , y] = !universe[x , y];
-                scratchPad[x , y] = !scratchPad[x , y];
+
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
             }
@@ -244,6 +259,13 @@ namespace GOL
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     universe[x, y] = false; //setting universe back to default (empty)
+                }
+            }          
+            for (int y = 0; y < scratchPad.GetLength(1); y++)   // clearing scratchPad too
+            {
+                for (int x = 0; x < scratchPad.GetLength(0); x++)
+                {
+                    scratchPad[x, y] = false; //setting universe back to default (empty)
                 }
             }
             graphicsPanel1.Invalidate(); //call for click events
