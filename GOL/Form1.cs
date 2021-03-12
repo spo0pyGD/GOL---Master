@@ -15,7 +15,7 @@ namespace GOL
         // The universe array
         bool[,] universe = new bool[30, 30];
         bool[,] scratchPad = new bool[30, 30];
-        //bool[,] tempPad = new bool[30, 30];
+        bool[,] temp = new bool[30, 30];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -50,20 +50,20 @@ namespace GOL
 
                     #region cleaner rules      
                     //apply the rules(determine whether current cell lives or dies)
-                    if (universe[x,y] == true) //if cell is on
+                    if (universe[x, y] == true) //if cell is on
                     {
                         if (countNbr < 2) scratchPad[x, y] = false; //A
                         if (countNbr > 3) scratchPad[x, y] = false; //B
                         if (countNbr == 2 || countNbr == 3) scratchPad[x, y] = true; //C
                     }
-                    else if (universe[x,y] == false) //if cell is off
+                    else if (universe[x, y] == false) //if cell is off
                     {
                         if (countNbr == 3) scratchPad[x, y] = true; //D
                     }
                     #endregion
 
                     #region commented rules             
-                    ////Rule A
+                    //Rule A
                     //if (universe[x, y] == true && countNbr < 2)     //die if less than 2 neighbors  
                     //{
                     //    //universe[x, y] = false;
@@ -91,13 +91,12 @@ namespace GOL
                     //    scratchPad[x, y] = true;
                     //}
                     #endregion
-                    //after you decide whether the cell lives or dies, turn on/off in scratchPad (second array)
                 }
             }
             //copy everything from scratchPad to universe
-
+            temp = universe;
             universe = scratchPad;
-            //scratchPad = universe;
+            scratchPad = temp;         
 
             // Increment generation count
             generations++;
@@ -191,13 +190,12 @@ namespace GOL
                 {
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
-
                     
                     if (xOffset == 0 && yOffset == 0) continue; // if xOffset and yOffset are both equal to 0, then continue
-                    if (xCheck < 0) continue;                   // if xCheck is less than 0, then continue
-                    if (yCheck < 0) continue;                   // if yCheck is less than 0, then continue
-                    if (xCheck >= xLen) continue;               // if xCheck is greater than or equal to xLen, then continue
-                    if (yCheck >= yLen) continue;               // if yCheck is greater than or equal to yLen, then continue
+                    else if (xCheck < 0) continue;                   // if xCheck is less than 0, then continue
+                    else if (yCheck < 0) continue;                   // if yCheck is less than 0, then continue
+                    else if (xCheck >= xLen) continue;               // if xCheck is greater than or equal to xLen, then continue
+                    else if (yCheck >= yLen) continue;               // if yCheck is greater than or equal to yLen, then continue
 
                     if (universe[xCheck, yCheck] == true) count++;
                 }
@@ -265,7 +263,7 @@ namespace GOL
             {
                 for (int x = 0; x < scratchPad.GetLength(0); x++)
                 {
-                    scratchPad[x, y] = false; //setting universe back to default (empty)
+                    scratchPad[x, y] = false;
                 }
             }
             graphicsPanel1.Invalidate(); //call for click events
