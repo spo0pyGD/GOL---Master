@@ -32,20 +32,21 @@ namespace GOL
             InitializeComponent();
 
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            timer.Interval = 30; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
 
         // Calculate the next generation of cells
         private void NextGeneration()
-        {            
+        {           
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
-            {
+            {         
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
+                    scratchPad[x, y] = false;
                     int countNbr = CountNeighborsToroidal(x, y); //returns neighbor count
 
                     #region cleaner rules      
@@ -192,10 +193,10 @@ namespace GOL
                     int yCheck = y + yOffset;
                     
                     if (xOffset == 0 && yOffset == 0) continue; // if xOffset and yOffset are both equal to 0, then continue
-                    else if (xCheck < 0) continue;                   // if xCheck is less than 0, then continue
-                    else if (yCheck < 0) continue;                   // if yCheck is less than 0, then continue
-                    else if (xCheck >= xLen) continue;               // if xCheck is greater than or equal to xLen, then continue
-                    else if (yCheck >= yLen) continue;               // if yCheck is greater than or equal to yLen, then continue
+                    if (xCheck < 0) continue;                   // if xCheck is less than 0, then continue
+                    if (yCheck < 0) continue;                   // if yCheck is less than 0, then continue
+                    if (xCheck >= xLen) continue;               // if xCheck is greater than or equal to xLen, then continue
+                    if (yCheck >= yLen) continue;               // if yCheck is greater than or equal to yLen, then continue
 
                     if (universe[xCheck, yCheck] == true) count++;
                 }
@@ -238,7 +239,13 @@ namespace GOL
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            #region basic click
             timer.Enabled = true;
+            #endregion
+            //if (timer.Enabled == true)
+            //    timer.Enabled = false;
+            //else
+            //    timer.Enabled = true;
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
