@@ -10,17 +10,16 @@ using System.Windows.Forms;
 
 namespace GOL
 {
-    public partial class ModalOptions : Form
+    public partial class SeedDialog : Form
     {
-        public ModalOptions()
+        public SeedDialog()
         {
             InitializeComponent();
         }
-
-        public int Number
+        public int Seed
         {
-            get { return (int)numericUpDownNum.Value; }
-            set { numericUpDownNum.Value = value; } //set to value not number
+            get { return (int)numericUpDownSeed.Value; }
+            set { numericUpDownSeed.Value = value; } //set to value not number
         }
     }
 }

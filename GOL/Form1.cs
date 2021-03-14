@@ -12,6 +12,13 @@ namespace GOL
 {
     public partial class Form1 : Form
     {
+        //number and color to render in paint
+        int number = 100;
+        Color numColor = Color.Red;
+
+        //Random Seed
+        int seed = 100; //
+
         // The universe array
         bool[,] universe = new bool[30, 30];
         bool[,] scratchPad = new bool[30, 30];
@@ -116,6 +123,11 @@ namespace GOL
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
+            #region Transparent text HUD
+            
+            Brush numBrush = new SolidBrush(numColor);
+            e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height  - 175));
+            #endregion
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
@@ -153,6 +165,7 @@ namespace GOL
             }
 
             // Cleaning up pens and brushes
+            numBrush.Dispose();
             gridPen.Dispose();
             cellBrush.Dispose();
         }
@@ -274,7 +287,66 @@ namespace GOL
                 }
             }
             graphicsPanel1.Invalidate(); //call for click events
-        }  
+        }
         #endregion
+
+        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e) //come back to this later
+        {
+
+        }
+
+        #region Modal Dialog Boxes
+        private void colorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = numColor;
+
+            if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user
+            {
+                numColor = dlg.Color;
+                graphicsPanel1.Invalidate();//repaint
+            }
+        }
+
+        //private void modalToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    ModalDialog dlg = new ModalDialog(); //instantiate
+
+        //    //dlg.SetNumber(number); //encapsulation get/set
+        //    //dlg.Number = number; //using property instead
+
+        //    if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user after already clicking //Dialog.OK says "thats the accept button"
+        //    {
+        //        int x = 0; //dummy code
+        //    }
+        //}
+        #endregion
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModalOptions dlg = new ModalOptions(); //instantiate
+
+            dlg.Number = number;
+
+            if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user after already clicking //Dialog.OK says "thats the accept button"
+            {
+                number = dlg.Number;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SeedDialog dlg = new SeedDialog();
+
+            dlg.Seed = seed;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                seed = dlg.Seed;
+                graphicsPanel1.Invalidate();
+            }
+        }
     }
 }
