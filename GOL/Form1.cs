@@ -17,7 +17,7 @@ namespace GOL
         Color numColor = Color.Red;
 
         //Random Seed
-        int seed = 100; //
+        int seed = 100; //dummy number
 
         // The universe array
         bool[,] universe = new bool[30, 30];
@@ -42,6 +42,9 @@ namespace GOL
             timer.Interval = 30; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
+
+            //Read Settings
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;  //namespace, Class, property, added settings
         }
 
         // Calculate the next generation of cells
@@ -91,11 +94,20 @@ namespace GOL
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            #region Transparent text HUD
-            
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+
+            RectangleF rect = new RectangleF(0, 0, 100, 100);
+            int neighbors = 8;
+
+            e.Graphics.DrawString(neighbors.ToString(), graphicsPanel1.Font, Brushes.Black, rect, stringFormat);
+
+            #region Transparent text HUD          
             Brush numBrush = new SolidBrush(numColor);
             e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height  - 175));
             #endregion
+
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             float cellWidth = (float)graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0);
@@ -132,15 +144,11 @@ namespace GOL
                 }
             }
             #region Thicker grid lines    
-
-            Pen thickPen = new Pen(gridColor, 2); //thicker
-            //Iterate through the universe in the y, top to bottom
+            Pen thickPen = new Pen(gridColor, 2); //2 is thicker
             for (int y = 0; y < universe.GetLength(1); y++)
             {
-                // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    // A rectangle to represent each cell in pixels
                     RectangleF gridRect = RectangleF.Empty;
                     gridRect.X = x * cellWidth * 10;
                     gridRect.Y = y * cellHeight * 10;
@@ -154,8 +162,9 @@ namespace GOL
             #endregion
             // Cleaning up pens and brushes
             numBrush.Dispose();
-            gridPen.Dispose();
+            gridPen.Dispose();           
             cellBrush.Dispose();
+            thickPen.Dispose();
         }
 
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
@@ -253,6 +262,7 @@ namespace GOL
         {
             timer.Enabled = false;
         }
+
         private void nextToolStripMenuItem_Click(object sender, EventArgs e) //call nextgen once
         {
             NextGeneration();
@@ -280,10 +290,10 @@ namespace GOL
 
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e) //come back to this later
         {
-
         }
 
         #region Modal Dialog Boxes
+
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -296,19 +306,6 @@ namespace GOL
                 graphicsPanel1.Invalidate();//repaint
             }
         }
-
-        //private void modalToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    ModalDialog dlg = new ModalDialog(); //instantiate
-
-        //    //dlg.SetNumber(number); //encapsulation get/set
-        //    //dlg.Number = number; //using property instead
-
-        //    if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user after already clicking //Dialog.OK says "thats the accept button"
-        //    {
-        //        int x = 0; //dummy code
-        //    }
-        //}
         #endregion
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -336,5 +333,41 @@ namespace GOL
                 graphicsPanel1.Invalidate();
             }
         }
+
+        #region Background color option
+        // Create the color picker dialog box
+        private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = graphicsPanel1.BackColor;
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+            }
+        }
+
+        // Saving the color when closing the application
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.BackColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.Save();
+        }
+        #endregion
+
+        #region Resetting settings
+     
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset(); //only to cached data
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reload();
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;  
+        }
+        #endregion
     }
 }
