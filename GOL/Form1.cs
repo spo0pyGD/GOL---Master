@@ -12,7 +12,7 @@ namespace GOL
 {
     public partial class Form1 : Form
     {
-        //number and color to render in paint
+        //HUD number and color to render in paint
         int number = 100;
         Color numColor = Color.Red;
 
@@ -56,7 +56,6 @@ namespace GOL
                     scratchPad[x, y] = false;
                     int countNbr = CountNeighborsToroidal(x, y); //returns neighbor count
 
-                    #region cleaner rules      
                     //apply the rules(determine whether current cell lives or dies)
                     if (universe[x, y] == true) //if cell is on
                     {
@@ -67,38 +66,7 @@ namespace GOL
                     else if (universe[x, y] == false) //if cell is off
                     {
                         if (countNbr == 3) scratchPad[x, y] = true; //D
-                    }
-                    #endregion
-
-                    #region commented rules             
-                    //Rule A
-                    //if (universe[x, y] == true && countNbr < 2)     //die if less than 2 neighbors  
-                    //{
-                    //    //universe[x, y] = false;
-                    //    scratchPad[x, y] = false;
-                    //}
-
-                    ////Rule B
-                    //if (universe[x, y] == true && countNbr > 3)     //die if more than 3 neighbors
-                    //{
-                    //    //universe[x, y] = false;
-                    //    scratchPad[x, y] = false;
-                    //}
-
-                    ////Rule C
-                    //if (universe[x, y] == true && countNbr == 2 || countNbr == 3)      //stay the same if 2-3 neighbors     
-                    //{
-                    //    //universe[x, y] = true;
-                    //    scratchPad[x, y] = true;
-                    //}
-
-                    ////Rule D
-                    //if (universe[x, y] == false && countNbr == 3) //cells reborn
-                    //{
-                    //    //universe[x, y] = true;
-                    //    scratchPad[x, y] = true;
-                    //}
-                    #endregion
+                    }            
                 }
             }
             //copy everything from scratchPad to universe
@@ -130,9 +98,9 @@ namespace GOL
             #endregion
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+            float cellWidth = (float)graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0);
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+            float cellHeight = (float)graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1);
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
@@ -147,7 +115,7 @@ namespace GOL
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // A rectangle to represent each cell in pixels
-                    Rectangle cellRect = Rectangle.Empty;
+                    RectangleF cellRect = RectangleF.Empty;
                     cellRect.X = x * cellWidth;
                     cellRect.Y = y * cellHeight;
                     cellRect.Width = cellWidth;
@@ -163,7 +131,27 @@ namespace GOL
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
+            #region Thicker grid lines    
 
+            Pen thickPen = new Pen(gridColor, 2); //thicker
+            //Iterate through the universe in the y, top to bottom
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    // A rectangle to represent each cell in pixels
+                    RectangleF gridRect = RectangleF.Empty;
+                    gridRect.X = x * cellWidth * 10;
+                    gridRect.Y = y * cellHeight * 10;
+                    gridRect.Width = cellWidth * 10;
+                    gridRect.Height = cellHeight * 10;
+
+                    // Outline the cell with a pen
+                    e.Graphics.DrawRectangle(thickPen, gridRect.X, gridRect.Y, gridRect.Width, gridRect.Height);
+                }
+            }
+            #endregion
             // Cleaning up pens and brushes
             numBrush.Dispose();
             gridPen.Dispose();
@@ -176,17 +164,17 @@ namespace GOL
             if (e.Button == MouseButtons.Left)
             {
                 // Calculate the width and height of each cell in pixels
-                int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
-                int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+                float cellWidth = (float)graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0);
+                float cellHeight = (float)graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1);
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                int x = e.X / cellWidth;
+                float x = (float)e.X / cellWidth;
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                int y = e.Y / cellHeight;
+                float y = (float)e.Y / cellHeight;
 
                 // Toggle the cell's state
-                universe[x , y] = !universe[x , y];
+                universe[(int)x , (int)y] = !universe[(int)x , (int)y];
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
