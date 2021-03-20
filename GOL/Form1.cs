@@ -21,6 +21,9 @@ namespace GOL
         //Random Seed
         int seed = 100; //dummy number
 
+        //Run to gen
+        int pickGen = 0;
+
         // The universe array
         bool[,] universe = new bool[30, 30];
         bool[,] scratchPad = new bool[30, 30];
@@ -450,19 +453,21 @@ namespace GOL
             }
             graphicsPanel1.Invalidate(); //call for click events
         }
-        #endregion
 
+        #region Switching between toroidal and finite
+     
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e) //come back to this later
         {
             isToroidal = true;
         }
+
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isToroidal = false;
         }
+        #endregion
 
-        #region Modal Dialog Boxes
-
+        #region Modal Dialog Box
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -539,5 +544,19 @@ namespace GOL
         }
         #endregion
 
+        #endregion
+
+        private void toToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Run_To_Dialog dlg = new Run_To_Dialog();
+
+            dlg.PickGeneration = 0;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                pickGen = dlg.PickGeneration;
+                graphicsPanel1.Invalidate();
+            }
+        }
     }
 }

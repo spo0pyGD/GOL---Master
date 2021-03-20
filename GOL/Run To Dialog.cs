@@ -10,17 +10,17 @@ using System.Windows.Forms;
 
 namespace GOL
 {
-    public partial class ModalOptions : Form
+    public partial class Run_To_Dialog : Form
     {
-        public ModalOptions()
+        public Run_To_Dialog()
         {
             InitializeComponent();
         }
 
-        public int Number
+        public int PickGeneration
         {
-            get { return (int)numericUpDownNum.Value; }
-            set { numericUpDownNum.Value = value; }
+            get { return (int)numericUpDownGen.Value; }
+            set { numericUpDownGen.Value = value; }
         }
     }
 }

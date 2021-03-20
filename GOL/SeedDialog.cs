@@ -19,7 +19,7 @@ namespace GOL
         public int Seed
         {
             get { return (int)numericUpDownSeed.Value; }
-            set { numericUpDownSeed.Value = value; } //set to value not number
+            set { numericUpDownSeed.Value = value; }
         }
     }
 }
