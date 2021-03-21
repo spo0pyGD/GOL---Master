@@ -62,7 +62,7 @@ namespace GOL
             int countNbr = 0;
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
-            {         
+            {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
@@ -84,13 +84,13 @@ namespace GOL
                     else if (universe[x, y] == false) //if cell is off
                     {
                         if (countNbr == 3) scratchPad[x, y] = true; //D
-                    }            
+                    }
                 }
             }
             //copy everything from scratchPad to universe
             temp = universe;
             universe = scratchPad;
-            scratchPad = temp;         
+            scratchPad = temp;
 
             // Increment generation count
             generations++;
@@ -111,7 +111,7 @@ namespace GOL
         {
             #region Transparent text HUD          
             Brush numBrush = new SolidBrush(numColor);
-            e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height  - 175));
+            e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height - 175));
             #endregion
 
             // Calculate the width and height of each cell in pixels
@@ -140,7 +140,7 @@ namespace GOL
                     cellRect.Height = cellHeight;
 
                     // Fill the cell with a brush if alive
-                    if (universe[x,y] == true)
+                    if (universe[x, y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
 
@@ -161,7 +161,7 @@ namespace GOL
 
                 }
             }
-            if(isHUDVisible)
+            if (isHUDVisible)
             {
                 isHUDVisible = !isHUDVisible;
             }
@@ -185,7 +185,7 @@ namespace GOL
 
             // Cleaning up pens and brushes
             numBrush.Dispose();
-            gridPen.Dispose();           
+            gridPen.Dispose();
             cellBrush.Dispose();
             thickPen.Dispose();
         }
@@ -206,7 +206,7 @@ namespace GOL
                 float y = (float)e.Y / cellHeight;
 
                 // Toggle the cell's state
-                universe[(int)x , (int)y] = !universe[(int)x , (int)y];
+                universe[(int)x, (int)y] = !universe[(int)x, (int)y];
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
@@ -226,7 +226,7 @@ namespace GOL
                 {
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
-                    
+
                     if (xOffset == 0 && yOffset == 0) continue; // if xOffset and yOffset are both equal to 0, then continue
                     if (xCheck < 0) continue;                   // if xCheck is less than 0, then continue
                     if (yCheck < 0) continue;                   // if yCheck is less than 0, then continue
@@ -253,7 +253,7 @@ namespace GOL
 
                     if (xOffset == 0 && yOffset == 0) continue; // if xOffset and yOffset are both equal to 0, then continue                          
                     if (xCheck < 0) xCheck = xLen - 1;          // if xCheck is less than 0, then set to xLen - 1
-                    if (yCheck < 0) yCheck = yLen -1;           // if yCheck is less than 0, then set to yLen - 1
+                    if (yCheck < 0) yCheck = yLen - 1;           // if yCheck is less than 0, then set to yLen - 1
                     if (xCheck >= xLen) xCheck = 0;             // if xCheck is greater than or equal to xLen, then set to 0
                     if (yCheck >= yLen) yCheck = 0;             // if yCheck is greater than or equal to yLen, then set to 0
 
@@ -281,112 +281,6 @@ namespace GOL
                 }
             }
         }
-     
-        #region Save/Load
-        private void SaveFile()
-        {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "All Files|*.*|Cells|*.cells";
-            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
-
-
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                StreamWriter writer = new StreamWriter(dlg.FileName);
-
-                // Write any comments you want to include first.
-                // Prefix all comment strings with an exclamation point.
-                // Use WriteLine to write the strings to the file. 
-                // It appends a CRLF for you.
-                writer.WriteLine("!This is my comment.");
-
-                // Iterate through the universe one row at a time.
-                for (int y = 0; y < universe.GetLength(1); y++)
-                {
-                    // Create a string to represent the current row.
-                    String currentRow = string.Empty;
-
-                    // Iterate through the current row one cell at a time.
-                    for (int x = 0; x < universe.GetLength(0); x++)
-                    {
-                        // If the universe[x,y] is alive then append 'O' (capital O)
-                        // to the row string.
-
-                        // Else if the universe[x,y] is dead then append '.' (period)
-                        // to the row string.
-                    }
-
-                    // Once the current row has been read through and the 
-                    // string constructed then write it to the file using WriteLine.
-                }
-                // After all rows and columns have been written then close the file.
-                writer.Close();
-            }
-        }    
-     
-        private void LoadFile()
-        {        
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "All Files|*.*|Cells|*.cells";
-            dlg.FilterIndex = 2;
-
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                StreamReader reader = new StreamReader(dlg.FileName);
-
-                // Create a couple variables to calculate the width and height
-                // of the data in the file.
-                int maxWidth = 0;
-                int maxHeight = 0;
-
-                // Iterate through the file once to get its size.
-                while (!reader.EndOfStream)
-                {
-                    // Read one row at a time.
-                    string row = reader.ReadLine();
-
-                    // If the row begins with '!' then it is a comment
-                    // and should be ignored.(continue)
-
-                    // If the row is not a comment then it is a row of cells.
-                    // Increment the maxHeight variable for each row read.
-
-                    // Get the length of the current row string
-                    // and adjust the maxWidth variable if necessary.
-                }
-
-                // Resize the current universe and scratchPad (call new)
-                // to the width and height of the file calculated above.
-
-                // Reset the file pointer back to the beginning of the file.
-                reader.BaseStream.Seek(0, SeekOrigin.Begin);
-
-                // Iterate through the file again, this time reading in the cells.
-                while (!reader.EndOfStream)
-                {
-                    // Read one row at a time.
-                    string row = reader.ReadLine();
-
-                    // If the row begins with '!' then
-                    // it is a comment and should be ignored.(continue)
-
-                    // If the row is not a comment then 
-                    // it is a row of cells and needs to be iterated through.
-                    for (int xPos = 0; xPos < row.Length; xPos++)                           //universe[xPos,yPos] = true (or false);...
-                    {
-                        // If row[xPos] is a 'O' (capital O) then
-                        // set the corresponding cell in the universe to alive.
-
-                        // If row[xPos] is a '.' (period) then
-                        // set the corresponding cell in the universe to dead.
-                    }
-                }
-                // Close the file.
-                reader.Close();
-                graphicsPanel1.Invalidate();
-            }
-        }
-        #endregion
 
         private int CountLivingCells()
         {
@@ -407,12 +301,13 @@ namespace GOL
         private void ResizeUniverse(int newWidth, int newHeight)
         {
             universe = new bool[newWidth, newHeight]; //just call new
-        }      
+        }
 
         #region Click events
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*this.*/Close(); //calling close method
+            /*this.*/
+            Close(); //calling close method
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
@@ -444,7 +339,7 @@ namespace GOL
                 {
                     universe[x, y] = false; //setting universe back to default (empty)
                 }
-            }          
+            }
             for (int y = 0; y < scratchPad.GetLength(1); y++)   // clearing scratchPad too
             {
                 for (int x = 0; x < scratchPad.GetLength(0); x++)
@@ -456,7 +351,7 @@ namespace GOL
         }
 
         #region Switching between toroidal and finite
-     
+
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e) //come back to this later
         {
             isToroidal = true;
@@ -511,14 +406,14 @@ namespace GOL
         }
 
         #region Color options
-        
+
         //Background color
         private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog(); //Create the color picker dialog box
 
             dlg.Color = graphicsPanel1.BackColor;
-            if(DialogResult.OK == dlg.ShowDialog())
+            if (DialogResult.OK == dlg.ShowDialog())
             {
                 graphicsPanel1.BackColor = dlg.Color;
             }
@@ -536,7 +431,7 @@ namespace GOL
                 cellColor = dlg.Color;
             }
             graphicsPanel1.Invalidate();
-        } 
+        }
 
         //Grid Color
         private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -562,7 +457,7 @@ namespace GOL
         #endregion
 
         #region Resetting settings
-     
+
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Reset(); //only to cached data
@@ -592,6 +487,116 @@ namespace GOL
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 pickGen = dlg.PickGeneration;
+                graphicsPanel1.Invalidate();
+            }
+        }
+        #endregion
+
+        #region Save/Load
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                // Write any comments you want to include first.
+                // Prefix all comment strings with an exclamation point.
+                // Use WriteLine to write the strings to the file. 
+                // It appends a CRLF for you.
+                writer.WriteLine("!This is my comment.");
+
+                // Iterate through the universe one row at a time.
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    // Create a string to represent the current row.
+                    String currentRow = string.Empty;
+
+                    // Iterate through the current row one cell at a time.
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        // If the universe[x,y] is alive then append 'O' (capital O) to the row string.
+                        if (universe[x, y] == true) currentRow += 'O';
+
+                        // Else if the universe[x,y] is dead then append '.' (period) to the row string.
+                        else if (universe[x, y] == false) currentRow += '.';
+                    }
+
+                    // Once the current row has been read through and the 
+                    // string constructed then write it to the file using WriteLine.
+                    writer.WriteLine();
+
+                }
+                // After all rows and columns have been written then close the file.
+                writer.Close();
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                // Create a couple variables to calculate the width and height
+                // of the data in the file.
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored.(continue)
+
+                    // If the row is not a comment then it is a row of cells.
+                    // Increment the maxHeight variable for each row read.
+                    
+
+                    // Get the length of the current row string
+                    // and adjust the maxWidth variable if necessary.
+                }
+
+                // Resize the current universe and scratchPad (call new)
+                // to the width and height of the file calculated above.
+
+                // Reset the file pointer back to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                // Iterate through the file again, this time reading in the cells.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then
+                    // it is a comment and should be ignored.(continue)
+
+                    // If the row is not a comment then 
+                    // it is a row of cells and needs to be iterated through.
+                    for (int xPos = 0; xPos < row.Length; xPos++)                           //universe[xPos,yPos] = true (or false);...
+                    {
+                        // If row[xPos] is a 'O' (capital O) then
+                        // set the corresponding cell in the universe to alive.
+
+                        // If row[xPos] is a '.' (period) then
+                        // set the corresponding cell in the universe to dead.
+                    }
+                }
+                // Close the file.
+                reader.Close();
                 graphicsPanel1.Invalidate();
             }
         }
