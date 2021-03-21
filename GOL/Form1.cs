@@ -510,11 +510,12 @@ namespace GOL
             }
         }
 
-        #region Background color option
-        // Create the color picker dialog box
+        #region Color options
+        
+        //Background color
         private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ColorDialog dlg = new ColorDialog();
+            ColorDialog dlg = new ColorDialog(); //Create the color picker dialog box
 
             dlg.Color = graphicsPanel1.BackColor;
             if(DialogResult.OK == dlg.ShowDialog())
@@ -523,9 +524,10 @@ namespace GOL
             }
             graphicsPanel1.Invalidate();
         }
+
+        //Cell color
         private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Brush cellBrush = new SolidBrush(cellColor);
             ColorDialog dlg = new ColorDialog();
 
             dlg.Color = graphicsPanel1.BackColor;
@@ -534,11 +536,27 @@ namespace GOL
                 cellColor = dlg.Color;
             }
             graphicsPanel1.Invalidate();
+        } 
+
+        //Grid Color
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+
+            dlg.Color = graphicsPanel1.BackColor;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color;
+            }
+            graphicsPanel1.Invalidate();
         }
+
         // Saving the color when closing the application
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Properties.Settings.Default.BackColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.CellColor = cellColor;
+            Properties.Settings.Default.GridColor = gridColor;
             Properties.Settings.Default.Save();
         }
         #endregion
@@ -549,12 +567,16 @@ namespace GOL
         {
             Properties.Settings.Default.Reset(); //only to cached data
             graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            gridColor = Properties.Settings.Default.GridColor;
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Reload();
-            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;  
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            gridColor = Properties.Settings.Default.GridColor;
         }
         #endregion
 
@@ -574,6 +596,5 @@ namespace GOL
             }
         }
         #endregion
-
     }
 }

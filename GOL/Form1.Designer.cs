@@ -355,6 +355,7 @@ namespace GOL
             this.gridColorToolStripMenuItem.Name = "gridColorToolStripMenuItem";
             this.gridColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gridColorToolStripMenuItem.Text = "&Grid Color";
+            this.gridColorToolStripMenuItem.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
             // 
             // gridX10ColorToolStripMenuItem
             // 
@@ -496,7 +497,7 @@ namespace GOL
             this.colorToolStripMenuItem,
             this.View});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(104, 48);
             // 
             // colorToolStripMenuItem
             // 
@@ -505,7 +506,7 @@ namespace GOL
             this.cellColorToolStripMenuItem1,
             this.gridColorToolStripMenuItem1});
             this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
-            this.colorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.colorToolStripMenuItem.Text = "&Color";
             // 
             // backColorToolStripMenuItem1
@@ -527,6 +528,7 @@ namespace GOL
             this.gridColorToolStripMenuItem1.Name = "gridColorToolStripMenuItem1";
             this.gridColorToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.gridColorToolStripMenuItem1.Text = "&Grid Color";
+            this.gridColorToolStripMenuItem1.Click += new System.EventHandler(this.gridColorToolStripMenuItem_Click);
             // 
             // View
             // 
@@ -535,7 +537,7 @@ namespace GOL
             this.neighborCountToolStripMenuItem1,
             this.gridToolStripMenuItem1});
             this.View.Name = "View";
-            this.View.Size = new System.Drawing.Size(180, 22);
+            this.View.Size = new System.Drawing.Size(103, 22);
             this.View.Text = "&View";
             // 
             // hUDToolStripMenuItem1
