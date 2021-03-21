@@ -18,8 +18,9 @@ namespace GOL
         Color numColor = Color.Red;
         bool isHUDVisible = true;
 
-        //Random Seed
+        //Random / From Seed
         int seed = 100; //dummy number
+        //Random randomSeed = new Random();
 
         //Run to gen
         int pickGen = 0;
@@ -211,7 +212,9 @@ namespace GOL
                 graphicsPanel1.Invalidate();
             }
         }
-        #region Finite
+
+        #region Count Neighbors
+
         private int CountNeighborsFinite(int x, int y)
         {
             int count = 0;
@@ -235,9 +238,7 @@ namespace GOL
             }
             return count;
         }
-        #endregion
 
-        #region Toroidal
         private int CountNeighborsToroidal(int x, int y)
         {
             int count = 0;
@@ -280,7 +281,7 @@ namespace GOL
                 }
             }
         }
-
+     
         #region Save/Load
         private void SaveFile()
         {
@@ -321,8 +322,8 @@ namespace GOL
                 // After all rows and columns have been written then close the file.
                 writer.Close();
             }
-        }
-
+        }    
+     
         private void LoadFile()
         {        
             OpenFileDialog dlg = new OpenFileDialog();
@@ -385,6 +386,7 @@ namespace GOL
                 graphicsPanel1.Invalidate();
             }
         }
+        #endregion
 
         private int CountLivingCells()
         {
@@ -405,8 +407,7 @@ namespace GOL
         private void ResizeUniverse(int newWidth, int newHeight)
         {
             universe = new bool[newWidth, newHeight]; //just call new
-        }
-        #endregion
+        }      
 
         #region Click events
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -482,7 +483,8 @@ namespace GOL
         }
         #endregion
 
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        //options
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e) //do I need this?
         {
             ModalOptions dlg = new ModalOptions(); //instantiate
 
@@ -519,8 +521,20 @@ namespace GOL
             {
                 graphicsPanel1.BackColor = dlg.Color;
             }
+            graphicsPanel1.Invalidate();
         }
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Brush cellBrush = new SolidBrush(cellColor);
+            ColorDialog dlg = new ColorDialog();
 
+            dlg.Color = graphicsPanel1.BackColor;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+            }
+            graphicsPanel1.Invalidate();
+        }
         // Saving the color when closing the application
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -546,6 +560,7 @@ namespace GOL
 
         #endregion
 
+        #region Run to Generation
         private void toToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Run_To_Dialog dlg = new Run_To_Dialog();
@@ -558,5 +573,7 @@ namespace GOL
                 graphicsPanel1.Invalidate();
             }
         }
+        #endregion
+
     }
 }
