@@ -18,12 +18,8 @@ namespace GOL
         Color numColor = Color.Red;
         bool isHUDVisible = true;
 
-        //Random / From Seed
-        int seed = 1010101; //dummy number
-        //Random randomSeed = new Random();
-
-        //Run to gen
-        int pickGen = 0;
+        //Fixed Seed
+        int seed = 1010101;
 
         // The universe array
         bool[,] universe = new bool[30, 30];
@@ -97,6 +93,8 @@ namespace GOL
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            toolStripStatusLabelNeighborCount.Text = "Neighbor Count = " + CountLivingCells().ToString();
+
             graphicsPanel1.Invalidate();
         }
 
@@ -270,7 +268,7 @@ namespace GOL
             Random tRand = new Random(); //automatically
 
             //seed from seed
-            Random sRand = new Random(seed); //from seed
+            //Random sRand = new Random(seed); //from seed
 
             // Iterate y
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -279,6 +277,25 @@ namespace GOL
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     int randNeighbors = tRand.Next(0, 2);
+
+                    if (randNeighbors == 0) universe[x, y] = true;
+                    else universe[x, y] = false;
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+        private void FixedSeedRandomUniverse()
+        {
+            //from seed
+            Random sRand = new Random(seed); //from seed
+
+            // Iterate y
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate x
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    int randNeighbors = sRand.Next(0, 2);
 
                     if (randNeighbors == 0) universe[x, y] = true;
                     else universe[x, y] = false;
@@ -308,7 +325,7 @@ namespace GOL
             universe = new bool[newWidth, newHeight]; //just call new
         }
 
-        #region Click events
+        #region Basic click events
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             /*this.*/Close(); //calling close method
@@ -582,7 +599,7 @@ namespace GOL
         #endregion
 
         #region Random universe
-
+        //From Seed
         private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SeedDialog dlg = new SeedDialog();
@@ -592,14 +609,23 @@ namespace GOL
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 seed = dlg.Seed;
+                FixedSeedRandomUniverse();
                 graphicsPanel1.Invalidate();
             }
-        }
-        #endregion
+        }     
 
+        //Current seed
         private void fromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InitialRandomUniverse();
+            graphicsPanel1.Invalidate();
+        } 
+        
+        //Time
+        private void fromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
+        #endregion
     }
 }
