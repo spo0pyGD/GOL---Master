@@ -561,8 +561,8 @@ namespace GOL
                     if (row.Substring(0, row.Length) == "!") continue;              // If the row begins with '!' then it is a comment and should be ignored. (continue)
                     else if (row.Substring(0, row.Length) != "!") maxHeight++;      // If the row is not a comment then it is a row of cells. Increment the maxHeight variable for each row read.
                    
-                    int length = row.Length;                                        // Get the length of the current row string (? come back to this)
-                    if (maxWidth != maxHeight) maxWidth = maxHeight;                // and adjust the maxWidth variable if necessary.
+                    maxHeight = row.Length;                                        // Get the length of the current row string (? come back to this)
+                    //if (maxWidth != maxHeight) maxWidth = maxHeight;                // and adjust the maxWidth variable if necessary.
                 }
 
                 // Resize the current universe and scratchPad (call new) to the width and height of the file calculated above.
