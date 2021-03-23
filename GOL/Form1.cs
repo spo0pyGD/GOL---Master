@@ -19,7 +19,7 @@ namespace GOL
         bool isHUDVisible = true;
 
         //Random / From Seed
-        int seed = 100; //dummy number
+        int seed = 1010101; //dummy number
         //Random randomSeed = new Random();
 
         //Run to gen
@@ -264,22 +264,27 @@ namespace GOL
         }
         #endregion
 
-        private void RandomTest()
+        private void InitialRandomUniverse()
         {
+            //Seed from time
+            Random tRand = new Random(); //automatically
+
+            //seed from seed
+            Random sRand = new Random(seed); //from seed
+
+            // Iterate y
             for (int y = 0; y < universe.GetLength(1); y++)
             {
-                // Iterate through the universe in the x, left to right
+                // Iterate x
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    //Seed from time
-                    Random tRand = new Random(); //automatically
+                    int randNeighbors = tRand.Next(0, 2);
 
-                    //seed from seed
-                    Random sRand = new Random();
-
-                    tRand.Next(0, 2);
+                    if (randNeighbors == 0) universe[x, y] = true;
+                    else universe[x, y] = false;
                 }
             }
+            graphicsPanel1.Invalidate();
         }
 
         private int CountLivingCells()
@@ -306,19 +311,12 @@ namespace GOL
         #region Click events
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*this.*/
-            Close(); //calling close method
+            /*this.*/Close(); //calling close method
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            #region basic click
-            timer.Enabled = true;
-            #endregion
-            //if (timer.Enabled == true)
-            //    timer.Enabled = false;
-            //else
-            //    timer.Enabled = true;
+            timer.Enabled = true; 
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -388,19 +386,6 @@ namespace GOL
             if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user after already clicking //Dialog.OK says "thats the accept button"
             {
                 number = dlg.Number;
-                graphicsPanel1.Invalidate();
-            }
-        }
-
-        private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SeedDialog dlg = new SeedDialog();
-
-            dlg.Seed = seed;
-
-            if (DialogResult.OK == dlg.ShowDialog())
-            {
-                seed = dlg.Seed;
                 graphicsPanel1.Invalidate();
             }
         }
@@ -486,7 +471,10 @@ namespace GOL
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
-                pickGen = dlg.PickGeneration;
+                timer.Enabled = true;
+                if (generations == dlg.PickGeneration)
+                    timer.Enabled = false;
+
                 graphicsPanel1.Invalidate();
             }
         }
@@ -592,5 +580,26 @@ namespace GOL
             }
         }
         #endregion
+
+        #region Random universe
+
+        private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SeedDialog dlg = new SeedDialog();
+
+            dlg.Seed = seed;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                seed = dlg.Seed;
+                graphicsPanel1.Invalidate();
+            }
+        }
+        #endregion
+
+        private void fromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitialRandomUniverse();
+        }
     }
 }
