@@ -15,8 +15,7 @@ namespace GOL
     {
         //HUD number and color to render in paint
         int number = 100;
-        Color numColor = Color.Red;
-        bool isHUDVisible = true;
+        Color numColor = Color.Red;        
 
         //Fixed Seed
         int seed = 1011110;
@@ -28,8 +27,10 @@ namespace GOL
 
         int countNbr = 0;
 
-        // Toroidal bool
+        // View menu bools
         bool isToroidal = true;
+        bool isHUDVisible = true;
+        bool viewNbr = true;
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -73,7 +74,7 @@ namespace GOL
                         countNbr = CountNeighborsToroidal(x, y);
                     else
                         countNbr = CountNeighborsFinite(x, y);
-
+            
                     //apply the rules(determine whether current cell lives or dies)
                     if (universe[x, y] == true) //if cell is on
                     {
@@ -165,10 +166,13 @@ namespace GOL
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
 
                     // Drawing neighbor count
-                    if (countNbr != 0) //leaving out 0 because clutter
-                    {                       
-                        if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.Red, cellRect, stringFormat); //dead cell = red font
-                        else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                         //Otherwise, font is green
+                    if (viewNbr)
+                    {
+                        if (countNbr != 0) //leaving out 0 because clutter
+                        {
+                            if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.Red, cellRect, stringFormat); //dead cell = red font
+                            else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                         //Otherwise, font is green
+                        }
                     }
                 }
             }
@@ -661,6 +665,14 @@ namespace GOL
                 isGridVisible = true;                 //user turns grid on
                 gridColor = Color.Black;              //set color to black
             }
+            graphicsPanel1.Invalidate();
+        }
+
+        //View neighbor count
+        private void neighborCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (viewNbr) viewNbr = false;
+            else if (!viewNbr) viewNbr = true;
             graphicsPanel1.Invalidate();
         }
     }
