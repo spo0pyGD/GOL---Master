@@ -28,6 +28,7 @@ namespace GOL
         int countNbr = 0;
 
         // View menu bools
+        bool defaultUniverse = true;
         bool isToroidal = true;
         bool isHUDVisible = true;
         bool viewNbr = true;
@@ -171,7 +172,7 @@ namespace GOL
                         if (countNbr != 0) //leaving out 0 because clutter
                         {
                             if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.Red, cellRect, stringFormat); //dead cell = red font
-                            else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                         //Otherwise, font is green
+                            else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                    //Otherwise, font is green
                         }
                     }
                 }
@@ -179,7 +180,16 @@ namespace GOL
 
             if (isHUDVisible)
             {
-                isHUDVisible = !isHUDVisible;
+                //draw HUD
+                Brush hudBrush = new SolidBrush(numColor);
+                Font hudFont = new Font("Arial", 17f);
+
+                string hudGen = "Generations = " + generations.ToString();
+                string hudLivingCells = "Living Cells = " + CountLivingCells().ToString();
+                string hudTimer = "Timer Interval (ms) = " + timer.Interval.ToString();
+                e.Graphics.DrawString(hudGen.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 175 ));
+                e.Graphics.DrawString(hudLivingCells.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 200 ));
+                e.Graphics.DrawString(hudTimer.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 225 ));              
             }
 
             #region Thicker grid lines    
@@ -443,6 +453,7 @@ namespace GOL
             graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
+            timer.Interval = Properties.Settings.Default.Timer;
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -451,6 +462,7 @@ namespace GOL
             graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
+            timer.Interval = Properties.Settings.Default.Timer;
         }
         #endregion      
 
@@ -673,6 +685,14 @@ namespace GOL
         {
             if (viewNbr) viewNbr = false;
             else if (!viewNbr) viewNbr = true;
+            graphicsPanel1.Invalidate();
+        }
+
+        //View HUD
+        private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isHUDVisible) isHUDVisible = false;
+            else if (!isHUDVisible) isHUDVisible = true;
             graphicsPanel1.Invalidate();
         }
     }

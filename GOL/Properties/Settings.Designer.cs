@@ -61,19 +61,19 @@ namespace GOL.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UniverseSize {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefaultUniverse {
             get {
-                return ((string)(this["UniverseSize"]));
+                return ((bool)(this["DefaultUniverse"]));
             }
             set {
-                this["UniverseSize"] = value;
+                this["DefaultUniverse"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
         public int Timer {
             get {
                 return ((int)(this["Timer"]));
