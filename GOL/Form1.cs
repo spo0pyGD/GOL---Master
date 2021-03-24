@@ -94,9 +94,10 @@ namespace GOL
             // Increment generation count
             generations++;
 
-            // Update status strip generations
+            // Update status strip
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             toolStripStatusLabelLivingCells.Text = "Living Cells = " + CountLivingCells().ToString();
+            toolStripStatusLabelTimerInterval.Text = "Timer Interval = " + timer.Interval.ToString();
 
             graphicsPanel1.Invalidate();
         }
@@ -386,12 +387,21 @@ namespace GOL
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e) //opens Modal Dialog box
         {
             ModalOptions dlg = new ModalOptions(); //instantiate
-            dlg.TimerInterval = number;
 
             if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user
             {
-                number = dlg.TimerInterval; // come back to timer interval
                 ResizeUniverse(dlg.UniverseWidth, dlg.UniverseHeight); //revisit               
+            }
+            graphicsPanel1.Invalidate();
+        }
+        private void speedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TimerDLG dlg = new TimerDLG(); //instantiate
+            dlg.TimerInterval = timer.Interval; //sets to same value as current interval
+
+            if (DialogResult.OK == dlg.ShowDialog()) 
+            {
+                timer.Interval = dlg.TimerInterval; //updates interval           
             }
             graphicsPanel1.Invalidate();
         }
@@ -477,7 +487,6 @@ namespace GOL
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 timer.Enabled = true;
-
                 if (generations == dlg.PickGeneration) timer.Enabled = false;
             }
             graphicsPanel1.Invalidate();
@@ -626,7 +635,7 @@ namespace GOL
             if (isGridVisible)
             {
                 isGridVisible = false;
-                gridColor = graphicsPanel1.BackColor; //makes the grid the same color as the back panel to account for color changes
+                gridColor = graphicsPanel1.BackColor;
             }
             else if (!isGridVisible)
             {

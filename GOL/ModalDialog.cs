@@ -18,12 +18,6 @@ namespace GOL
         }
 
         //A prop for each numeric up/down box
-        public int TimerInterval
-        {
-            get { return (int)numericUpDownTimerInterval.Value; }
-            set { numericUpDownTimerInterval.Value = value; }
-        }
-
         public int UniverseHeight
         {
             get { return (int)numericUpDownUniverseHeight.Value; }
