@@ -159,14 +159,17 @@ namespace GOL
                     if (universe[x, y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-                        
-                        // Drawing neighbor count
-                        if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.OrangeRed, cellRect, stringFormat); //if cell will die font is red
-                        else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                             //Otherwise, font is green
                     }
 
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);                
+                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+
+                    // Drawing neighbor count
+                    if (countNbr != 0) //leaving out 0 because clutter
+                    {                       
+                        if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.Red, cellRect, stringFormat); //dead cell = red font
+                        else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                         //Otherwise, font is green
+                    }
                 }
             }
 
