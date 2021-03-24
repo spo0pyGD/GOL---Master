@@ -391,8 +391,8 @@ namespace GOL
             // toolStripStatusLabelTimerInterval
             // 
             this.toolStripStatusLabelTimerInterval.Name = "toolStripStatusLabelTimerInterval";
-            this.toolStripStatusLabelTimerInterval.Size = new System.Drawing.Size(117, 17);
-            this.toolStripStatusLabelTimerInterval.Text = "    Timer Interval = 30";
+            this.toolStripStatusLabelTimerInterval.Size = new System.Drawing.Size(141, 17);
+            this.toolStripStatusLabelTimerInterval.Text = "   Timer Interval (ms) = 30";
             // 
             // contextMenuStrip1
             // 

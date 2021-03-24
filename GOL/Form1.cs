@@ -26,6 +26,8 @@ namespace GOL
         bool[,] scratchPad = new bool[30, 30];
         bool[,] temp = new bool[30, 30];
 
+        int countNbr = 0;
+
         // Toroidal bool
         bool isToroidal = true;
 
@@ -57,8 +59,7 @@ namespace GOL
 
         // Calculate the next generation of cells
         private void NextGeneration()
-        {
-            int countNbr = 0;
+        {            
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -97,7 +98,7 @@ namespace GOL
             // Update status strip
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             toolStripStatusLabelLivingCells.Text = "Living Cells = " + CountLivingCells().ToString();
-            toolStripStatusLabelTimerInterval.Text = "Timer Interval = " + timer.Interval.ToString();
+            toolStripStatusLabelTimerInterval.Text = "Timer Interval (ms) = " + timer.Interval.ToString();
 
             graphicsPanel1.Invalidate();
         }
@@ -115,6 +116,7 @@ namespace GOL
             //Red 100
             //Brush numBrush = new SolidBrush(numColor);
             //e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height - 175 ));
+            Font font = new Font("Arial", 15f);
             #endregion
 
             // Calculate the width and height of each cell in pixels
@@ -142,25 +144,30 @@ namespace GOL
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
+                    #region Display neighbor count in cell
+
+                    if (isToroidal)
+                        countNbr = CountNeighborsToroidal(x, y);
+                    else
+                        countNbr = CountNeighborsFinite(x, y);
+
+                    StringFormat stringFormat = new StringFormat();
+                    stringFormat.Alignment = StringAlignment.Center;
+                    stringFormat.LineAlignment = StringAlignment.Center;
+                    #endregion
+
                     // Fill the cell with a brush if alive
                     if (universe[x, y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-
-                        #region neighbor count
-                        StringFormat stringFormat = new StringFormat();
-                        stringFormat.Alignment = StringAlignment.Center;
-                        stringFormat.LineAlignment = StringAlignment.Center;
-
-                        RectangleF rect = new RectangleF(0, 0, 100, 100);
-                        int neighbors;
-
-                        e.Graphics.DrawString(cellRect.ToString(), graphicsPanel1.Font, Brushes.Black, rect, stringFormat);
-                        #endregion
+                        
+                        // Drawing neighbor count
+                        if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.OrangeRed, cellRect, stringFormat);
+                        else if (countNbr == 3 ) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);
                     }
 
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);                
                 }
             }
 
@@ -274,7 +281,7 @@ namespace GOL
 
                     if (xOffset == 0 && yOffset == 0) continue; // if xOffset and yOffset are both equal to 0, then continue                          
                     if (xCheck < 0) xCheck = xLen - 1;          // if xCheck is less than 0, then set to xLen - 1
-                    if (yCheck < 0) yCheck = yLen - 1;           // if yCheck is less than 0, then set to yLen - 1
+                    if (yCheck < 0) yCheck = yLen - 1;          // if yCheck is less than 0, then set to yLen - 1
                     if (xCheck >= xLen) xCheck = 0;             // if xCheck is greater than or equal to xLen, then set to 0
                     if (yCheck >= yLen) yCheck = 0;             // if yCheck is greater than or equal to yLen, then set to 0
 
@@ -392,19 +399,19 @@ namespace GOL
 
             if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user
             {
-                ResizeUniverse(dlg.UniverseWidth, dlg.UniverseHeight); //revisit               
+                ResizeUniverse(dlg.UniverseWidth, dlg.UniverseHeight);              
             }
             graphicsPanel1.Invalidate();
         }
 
-        private void speedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void speedToolStripMenuItem_Click(object sender, EventArgs e) //Timer interval dialog box
         {
             TimerDLG dlg = new TimerDLG();
             dlg.TimerInterval = timer.Interval; //sets to same value as current interval
 
             if (DialogResult.OK == dlg.ShowDialog()) 
             {
-                timer.Interval = dlg.TimerInterval; //updates interval           
+                timer.Interval = dlg.TimerInterval; //updates interval with user input        
             }
             graphicsPanel1.Invalidate();
         }
@@ -633,17 +640,18 @@ namespace GOL
         #endregion
 
         //View grid
+        //I want to figure out a way to do this by turning off/clearing the grid pen instead
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isGridVisible)
+            if (isGridVisible)                        //if grid is on
             {
-                isGridVisible = false;
-                gridColor = graphicsPanel1.BackColor;
+                isGridVisible = false;                //user click will turn the grid off
+                gridColor = graphicsPanel1.BackColor; //set color to background color
             }
-            else if (!isGridVisible)
+            else if (!isGridVisible)                  //otherwise, if grid is off 
             {
-                isGridVisible = true;
-                gridColor = Color.Black;
+                isGridVisible = true;                 //user turns grid on
+                gridColor = Color.Black;              //set color to black
             }
             graphicsPanel1.Invalidate();
         }
