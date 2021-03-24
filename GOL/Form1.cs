@@ -627,21 +627,17 @@ namespace GOL
         //View grid
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             if (isGridVisible)
             {
-                isGridVisible = !isGridVisible;
-
-                gridColor = Color.Black;
-                graphicsPanel1.Invalidate();
+                isGridVisible = false;
+                gridColor = graphicsPanel1.BackColor; //makes the grid the same color as the back panel to account for color changes
             }
             else if (!isGridVisible)
             {
                 isGridVisible = true;
-
-                gridColor = Color.White;
-                graphicsPanel1.Invalidate();
+                gridColor = Color.Black;
             }
+            graphicsPanel1.Invalidate();
         }
     }
 }
