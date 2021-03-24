@@ -116,7 +116,6 @@ namespace GOL
             //Red 100
             //Brush numBrush = new SolidBrush(numColor);
             //e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height - 175 ));
-            Font font = new Font("Arial", 15f);
             #endregion
 
             // Calculate the width and height of each cell in pixels
@@ -146,7 +145,7 @@ namespace GOL
 
                     #region Display neighbor count in cell
 
-                    if (isToroidal)
+                    if (isToroidal) // So I can use both universe types
                         countNbr = CountNeighborsToroidal(x, y);
                     else
                         countNbr = CountNeighborsFinite(x, y);
@@ -162,8 +161,8 @@ namespace GOL
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                         
                         // Drawing neighbor count
-                        if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.OrangeRed, cellRect, stringFormat);
-                        else if (countNbr == 3 ) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);
+                        if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.OrangeRed, cellRect, stringFormat); //if cell will die font is red
+                        else if (countNbr == 3 ) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);         //Otherwise, font is green
                     }
 
                     // Outline the cell with a pen
@@ -195,7 +194,6 @@ namespace GOL
             #endregion
 
             // Cleaning up pens and brushes
-            //numBrush.Dispose();
             gridPen.Dispose();
             cellBrush.Dispose();
             thickPen.Dispose();
@@ -289,49 +287,6 @@ namespace GOL
                 }
             }
             return count;
-        }
-        #endregion
-
-        #region Random Universe methods for seed and time
-        
-        private void InitialRandomUniverse()
-        {
-            //from time
-            Random tRand = new Random(); //automatically
-
-            // Iterate y
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                // Iterate x
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    int randNeighbors = tRand.Next(0, 2);
-
-                    if (randNeighbors == 0) universe[x, y] = true;
-                    else universe[x, y] = false;
-                }
-            }
-            graphicsPanel1.Invalidate();
-        }
-
-        private void FixedSeedRandomUniverse()
-        {
-            //from seed
-            Random sRand = new Random(seed); //from seed
-
-            // Iterate y
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                // Iterate x
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    int randNeighbors = sRand.Next(0, 2);
-
-                    if (randNeighbors == 0) universe[x, y] = true;
-                    else universe[x, y] = false;
-                }
-            }
-            graphicsPanel1.Invalidate();
         }
         #endregion
 
@@ -609,6 +564,49 @@ namespace GOL
 
         #region Random universe
 
+        #region Methods for seed and time
+
+        private void InitialRandomUniverse()
+        {
+            //from time
+            Random tRand = new Random(); //automatically
+
+            // Iterate y
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate x
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    int randNeighbors = tRand.Next(0, 2);
+
+                    if (randNeighbors == 0) universe[x, y] = true;
+                    else universe[x, y] = false;
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void FixedSeedRandomUniverse()
+        {
+            //from seed
+            Random sRand = new Random(seed); //from seed
+
+            // Iterate y
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate x
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    int randNeighbors = sRand.Next(0, 2);
+
+                    if (randNeighbors == 0) universe[x, y] = true;
+                    else universe[x, y] = false;
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+        #endregion
+
         //From Seed (user choice)
         private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -620,6 +618,7 @@ namespace GOL
             {
                 seed = dlg.Seed;
                 FixedSeedRandomUniverse();
+                CountLivingCells();
                 graphicsPanel1.Invalidate();
             }
         }     
@@ -628,6 +627,7 @@ namespace GOL
         private void fromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FixedSeedRandomUniverse();
+            CountLivingCells();
             graphicsPanel1.Invalidate();
         } 
         
@@ -635,6 +635,7 @@ namespace GOL
         private void fromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InitialRandomUniverse();
+            CountLivingCells();
             graphicsPanel1.Invalidate();
         }
         #endregion
