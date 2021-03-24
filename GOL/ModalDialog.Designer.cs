@@ -65,7 +65,7 @@ namespace GOL
             // numericUpDownNum
             // 
             this.numericUpDownNum.Increment = new decimal(new int[] {
-            10,
+            5,
             0,
             0,
             0});
@@ -108,6 +108,11 @@ namespace GOL
             // 
             // numericUpDown2
             // 
+            this.numericUpDown2.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numericUpDown2.Location = new System.Drawing.Point(224, 120);
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(75, 20);
@@ -115,6 +120,11 @@ namespace GOL
             // 
             // numericUpDown3
             // 
+            this.numericUpDown3.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numericUpDown3.Location = new System.Drawing.Point(224, 94);
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(75, 20);

@@ -19,7 +19,7 @@ namespace GOL
         bool isHUDVisible = true;
 
         //Fixed Seed
-        int seed = 1010101;
+        int seed = 1011110;
 
         // The universe array
         bool[,] universe = new bool[30, 30];
@@ -32,6 +32,9 @@ namespace GOL
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.DarkSlateGray;
+
+        //Bool for grid
+        bool isGridVisible = true;
 
         // The Timer class
         Timer timer = new Timer();
@@ -93,7 +96,7 @@ namespace GOL
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
-            toolStripStatusLabelNeighborCount.Text = "Neighbor Count = " + CountLivingCells().ToString();
+            toolStripStatusLabelLivingCells.Text = "Living Cells = " + CountLivingCells().ToString();
 
             graphicsPanel1.Invalidate();
         }
@@ -107,9 +110,10 @@ namespace GOL
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            #region Transparent text HUD          
-            Brush numBrush = new SolidBrush(numColor);
-            e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height - 175));
+            #region Transparent text HUD
+            //Red 100
+            //Brush numBrush = new SolidBrush(numColor);
+            //e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height - 175 ));
             #endregion
 
             // Calculate the width and height of each cell in pixels
@@ -159,10 +163,12 @@ namespace GOL
 
                 }
             }
+
             if (isHUDVisible)
             {
                 isHUDVisible = !isHUDVisible;
             }
+
             #region Thicker grid lines    
             Pen thickPen = new Pen(gridColor, 2); //2 is thicker
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -182,7 +188,7 @@ namespace GOL
             #endregion
 
             // Cleaning up pens and brushes
-            numBrush.Dispose();
+            //numBrush.Dispose();
             gridPen.Dispose();
             cellBrush.Dispose();
             thickPen.Dispose();
@@ -209,6 +215,22 @@ namespace GOL
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
             }
+        }
+
+        private int CountLivingCells()
+        {
+            int count = 0;
+            for (int y = 0; y < universe.GetLength(1); y++)     //Iterate y
+            {
+                for (int x = 0; x < universe.GetLength(0); x++) //Iterate x
+                    if (universe[x, y] == true) count++;
+            }
+            return count;
+        }
+
+        private void ResizeUniverse(int newWidth, int newHeight)
+        {
+            universe = new bool[newWidth, newHeight]; //just call new
         }
 
         #region Count Neighbors
@@ -262,13 +284,12 @@ namespace GOL
         }
         #endregion
 
+        #region Random Universe methods for seed and time
+        
         private void InitialRandomUniverse()
         {
-            //Seed from time
+            //from time
             Random tRand = new Random(); //automatically
-
-            //seed from seed
-            //Random sRand = new Random(seed); //from seed
 
             // Iterate y
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -284,6 +305,7 @@ namespace GOL
             }
             graphicsPanel1.Invalidate();
         }
+
         private void FixedSeedRandomUniverse()
         {
             //from seed
@@ -303,27 +325,7 @@ namespace GOL
             }
             graphicsPanel1.Invalidate();
         }
-
-        private int CountLivingCells()
-        {
-            int count = 0;
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    if (universe[x, y] == true)
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
-        private void ResizeUniverse(int newWidth, int newHeight)
-        {
-            universe = new bool[newWidth, newHeight]; //just call new
-        }
+        #endregion
 
         #region Basic click events
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -364,6 +366,7 @@ namespace GOL
             }
             graphicsPanel1.Invalidate(); //call for click events
         }
+        #endregion
 
         #region Switching between toroidal and finite
 
@@ -378,23 +381,9 @@ namespace GOL
         }
         #endregion
 
-        #region Modal Dialog Box
-        private void colorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ColorDialog dlg = new ColorDialog();
+        #region Options DLG
 
-            dlg.Color = numColor;
-
-            if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user
-            {
-                numColor = dlg.Color;
-                graphicsPanel1.Invalidate();//repaint
-            }
-        }
-        #endregion
-
-        //options
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e) //do I need this?
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e) //opens Modal Dialog box
         {
             ModalOptions dlg = new ModalOptions(); //instantiate
 
@@ -403,11 +392,14 @@ namespace GOL
             if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user after already clicking //Dialog.OK says "thats the accept button"
             {
                 number = dlg.Number;
+                ResizeUniverse(dlg.Number, dlg.Number); //revisit
                 graphicsPanel1.Invalidate();
             }
         }
 
-        #region Color options
+        #endregion
+
+        #region Color DLG
 
         //Background color
         private void backColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -475,20 +467,19 @@ namespace GOL
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
         }
-        #endregion
-
-        #endregion
+        #endregion      
 
         #region Run to Generation
         private void toToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Run_To_Dialog dlg = new Run_To_Dialog();
 
-            dlg.PickGeneration = 0;
+            dlg.PickGeneration = generations;
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 timer.Enabled = true;
+
                 if (generations == dlg.PickGeneration)
                     timer.Enabled = false;
 
@@ -563,11 +554,14 @@ namespace GOL
                 {                   
                     string row = reader.ReadLine();                                 // Read one row at a time.
 
-                    if (row.Substring(0, row.Length) == "!") continue;              // If the row begins with '!' then it is a comment and should be ignored. (continue)
-                    else if (row.Substring(0, row.Length) != "!") maxHeight++;      // If the row is not a comment then it is a row of cells. Increment the maxHeight variable for each row read.
-                   
-                    maxHeight = row.Length;                                        // Get the length of the current row string (? come back to this)
-                    //if (maxWidth != maxHeight) maxWidth = maxHeight;                // and adjust the maxWidth variable if necessary.
+                    //if (row.Substring(0 , row.Length) == "!") continue;              // If the row begins with '!' then it is a comment and should be ignored. (continue)
+                    //else if (row.Substring(0 , row.Length) != "!") maxHeight++;      // If the row is not a comment then it is a row of cells. Increment the maxHeight variable for each row read.
+                    if (row[0] == '!') continue;
+                    else if (row[0] != '!') maxHeight++;
+
+                    maxWidth = row.Length;                                              // Get the length of the current row string (? come back to this)
+                    
+                    //if (maxHeight != maxWidth) maxHeight = maxWidth;                    // and adjust the maxWidth variable if necessary.
                 }
 
                 // Resize the current universe and scratchPad (call new) to the width and height of the file calculated above.
@@ -582,13 +576,13 @@ namespace GOL
                 {                   
                     string row = reader.ReadLine();                                 // Read one row at a time.
 
-                    if (row.Substring(0, row.Length) == "!") continue;              // If the row begins with '!' then it is a comment and should be ignored. (continue)                 
-                    else if (row.Substring(0, row.Length) != "!")                   // If the row is not a comment then it is a row of cells and needs to be iterated through.
+                    if (row[0] == '!') continue;                                    // If the row begins with '!' then it is a comment and should be ignored. (continue)        //changed from row.Substring(0,row.length)              
+                    else if (row[0] != '!')                                         // If the row is not a comment then it is a row of cells and needs to be iterated through.
                     {
                         for (int xPos = 0; xPos < row.Length; xPos++)
                         {
                            if (row[xPos] == 'O') universe[xPos, yPos] = true;       // If row[xPos] is a 'O' (capital O) then set the corresponding cell in the universe to alive.
-                           if (row[xPos] == '.') universe[xPos, yPos] = false;      // If row[xPos] is a '.' (period) then set the corresponding cell in the universe to dead.
+                           else if (row[xPos] == '.') universe[xPos, yPos] = false; // If row[xPos] is a '.' (period) then set the corresponding cell in the universe to dead.
                         }
                     }                
                 }              
@@ -599,7 +593,8 @@ namespace GOL
         #endregion
 
         #region Random universe
-        //From Seed
+
+        //From Seed (user choice)
         private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SeedDialog dlg = new SeedDialog();
@@ -617,15 +612,36 @@ namespace GOL
         //Current seed
         private void fromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InitialRandomUniverse();
+            FixedSeedRandomUniverse();
             graphicsPanel1.Invalidate();
         } 
         
         //Time
         private void fromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            InitialRandomUniverse();
+            graphicsPanel1.Invalidate();
         }
         #endregion
+
+        //View grid
+        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (isGridVisible)
+            {
+                isGridVisible = !isGridVisible;
+
+                gridColor = Color.Black;
+                graphicsPanel1.Invalidate();
+            }
+            else if (!isGridVisible)
+            {
+                isGridVisible = true;
+
+                gridColor = Color.White;
+                graphicsPanel1.Invalidate();
+            }
+        }
     }
 }
