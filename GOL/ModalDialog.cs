@@ -17,10 +17,23 @@ namespace GOL
             InitializeComponent();
         }
 
-        public int Number
+        //A prop for each numeric up/down box
+        public int TimerInterval
         {
-            get { return (int)numericUpDownNum.Value; }
-            set { numericUpDownNum.Value = value; }
+            get { return (int)numericUpDownTimerInterval.Value; }
+            set { numericUpDownTimerInterval.Value = value; }
+        }
+
+        public int UniverseHeight
+        {
+            get { return (int)numericUpDownUniverseHeight.Value; }
+            set { numericUpDownUniverseHeight.Value = value; }
+        }
+
+        public int UniverseWidth
+        {
+            get { return (int)numericUpDownUniverseWidth.Value; }
+            set { numericUpDownUniverseWidth.Value = value; }
         }
     }
 }

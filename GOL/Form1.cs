@@ -386,15 +386,14 @@ namespace GOL
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e) //opens Modal Dialog box
         {
             ModalOptions dlg = new ModalOptions(); //instantiate
+            dlg.TimerInterval = number;
 
-            dlg.Number = number;
-
-            if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user after already clicking //Dialog.OK says "thats the accept button"
+            if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user
             {
-                number = dlg.Number;
-                ResizeUniverse(dlg.Number, dlg.Number); //revisit
-                graphicsPanel1.Invalidate();
+                number = dlg.TimerInterval; // come back to timer interval
+                ResizeUniverse(dlg.UniverseWidth, dlg.UniverseHeight); //revisit               
             }
+            graphicsPanel1.Invalidate();
         }
 
         #endregion
@@ -472,15 +471,14 @@ namespace GOL
         #region Run to Generation
         private void toToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Run_To_Dialog dlg = new Run_To_Dialog();
-            timer.Enabled = true;
-
+            Run_To_Dialog dlg = new Run_To_Dialog();         
             dlg.PickGeneration = generations;
 
             if (DialogResult.OK == dlg.ShowDialog())
-            {               
-                if (generations == dlg.PickGeneration)
-                    timer.Enabled = false;
+            {
+                timer.Enabled = true;
+
+                if (generations == dlg.PickGeneration) timer.Enabled = false;
             }
             graphicsPanel1.Invalidate();
         }

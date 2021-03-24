@@ -31,15 +31,15 @@ namespace GOL
         {
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.numericUpDownNum = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownTimerInterval = new System.Windows.Forms.NumericUpDown();
             this.labelTimerInterval = new System.Windows.Forms.Label();
             this.labelUniverseWidth = new System.Windows.Forms.Label();
             this.labelUniverseHeight = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNum)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            this.numericUpDownUniverseHeight = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownUniverseWidth = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimerInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUniverseHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUniverseWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -62,27 +62,27 @@ namespace GOL
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // numericUpDownNum
+            // numericUpDownTimerInterval
             // 
-            this.numericUpDownNum.Increment = new decimal(new int[] {
+            this.numericUpDownTimerInterval.Increment = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDownNum.Location = new System.Drawing.Point(224, 68);
-            this.numericUpDownNum.Maximum = new decimal(new int[] {
+            this.numericUpDownTimerInterval.Location = new System.Drawing.Point(228, 68);
+            this.numericUpDownTimerInterval.Maximum = new decimal(new int[] {
             3000,
             0,
             0,
             0});
-            this.numericUpDownNum.Name = "numericUpDownNum";
-            this.numericUpDownNum.Size = new System.Drawing.Size(75, 20);
-            this.numericUpDownNum.TabIndex = 2;
+            this.numericUpDownTimerInterval.Name = "numericUpDownTimerInterval";
+            this.numericUpDownTimerInterval.Size = new System.Drawing.Size(75, 20);
+            this.numericUpDownTimerInterval.TabIndex = 2;
             // 
             // labelTimerInterval
             // 
             this.labelTimerInterval.AutoSize = true;
-            this.labelTimerInterval.Location = new System.Drawing.Point(78, 70);
+            this.labelTimerInterval.Location = new System.Drawing.Point(83, 70);
             this.labelTimerInterval.Name = "labelTimerInterval";
             this.labelTimerInterval.Size = new System.Drawing.Size(140, 13);
             this.labelTimerInterval.TabIndex = 3;
@@ -91,7 +91,7 @@ namespace GOL
             // labelUniverseWidth
             // 
             this.labelUniverseWidth.AutoSize = true;
-            this.labelUniverseWidth.Location = new System.Drawing.Point(78, 96);
+            this.labelUniverseWidth.Location = new System.Drawing.Point(83, 137);
             this.labelUniverseWidth.Name = "labelUniverseWidth";
             this.labelUniverseWidth.Size = new System.Drawing.Size(128, 13);
             this.labelUniverseWidth.TabIndex = 4;
@@ -100,35 +100,35 @@ namespace GOL
             // labelUniverseHeight
             // 
             this.labelUniverseHeight.AutoSize = true;
-            this.labelUniverseHeight.Location = new System.Drawing.Point(78, 122);
+            this.labelUniverseHeight.Location = new System.Drawing.Point(83, 103);
             this.labelUniverseHeight.Name = "labelUniverseHeight";
             this.labelUniverseHeight.Size = new System.Drawing.Size(131, 13);
             this.labelUniverseHeight.TabIndex = 5;
             this.labelUniverseHeight.Text = "Height of Universe in Cells";
             // 
-            // numericUpDown2
+            // numericUpDownUniverseHeight
             // 
-            this.numericUpDown2.Increment = new decimal(new int[] {
+            this.numericUpDownUniverseHeight.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown2.Location = new System.Drawing.Point(224, 120);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(75, 20);
-            this.numericUpDown2.TabIndex = 6;
+            this.numericUpDownUniverseHeight.Location = new System.Drawing.Point(228, 101);
+            this.numericUpDownUniverseHeight.Name = "numericUpDownUniverseHeight";
+            this.numericUpDownUniverseHeight.Size = new System.Drawing.Size(75, 20);
+            this.numericUpDownUniverseHeight.TabIndex = 6;
             // 
-            // numericUpDown3
+            // numericUpDownUniverseWidth
             // 
-            this.numericUpDown3.Increment = new decimal(new int[] {
+            this.numericUpDownUniverseWidth.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown3.Location = new System.Drawing.Point(224, 94);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(75, 20);
-            this.numericUpDown3.TabIndex = 7;
+            this.numericUpDownUniverseWidth.Location = new System.Drawing.Point(228, 135);
+            this.numericUpDownUniverseWidth.Name = "numericUpDownUniverseWidth";
+            this.numericUpDownUniverseWidth.Size = new System.Drawing.Size(75, 20);
+            this.numericUpDownUniverseWidth.TabIndex = 7;
             // 
             // ModalOptions
             // 
@@ -137,12 +137,12 @@ namespace GOL
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(381, 226);
-            this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.numericUpDownUniverseWidth);
+            this.Controls.Add(this.numericUpDownUniverseHeight);
             this.Controls.Add(this.labelUniverseHeight);
             this.Controls.Add(this.labelUniverseWidth);
             this.Controls.Add(this.labelTimerInterval);
-            this.Controls.Add(this.numericUpDownNum);
+            this.Controls.Add(this.numericUpDownTimerInterval);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -151,9 +151,9 @@ namespace GOL
             this.Name = "ModalOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Options";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNum)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimerInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUniverseHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownUniverseWidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,11 +163,11 @@ namespace GOL
 
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.NumericUpDown numericUpDownNum;
+        private System.Windows.Forms.NumericUpDown numericUpDownTimerInterval;
         private System.Windows.Forms.Label labelTimerInterval;
         private System.Windows.Forms.Label labelUniverseWidth;
         private System.Windows.Forms.Label labelUniverseHeight;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDownUniverseHeight;
+        private System.Windows.Forms.NumericUpDown numericUpDownUniverseWidth;
     }
 }

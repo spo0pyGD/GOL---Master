@@ -16,6 +16,7 @@ namespace GOL
         {
             InitializeComponent();
         }
+
         public int Seed
         {
             get { return (int)numericUpDownSeed.Value; }
