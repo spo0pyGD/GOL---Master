@@ -162,7 +162,7 @@ namespace GOL
                         
                         // Drawing neighbor count
                         if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.OrangeRed, cellRect, stringFormat); //if cell will die font is red
-                        else if (countNbr == 3 ) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);         //Otherwise, font is green
+                        else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                             //Otherwise, font is green
                     }
 
                     // Outline the cell with a pen
