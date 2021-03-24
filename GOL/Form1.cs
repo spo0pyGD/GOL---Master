@@ -335,7 +335,7 @@ namespace GOL
 
         #region Switching between toroidal and finite
 
-        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e) //come back to this later
+        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isToroidal = true;
         }
@@ -351,6 +351,10 @@ namespace GOL
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e) //opens Modal Dialog box
         {
             ModalOptions dlg = new ModalOptions(); //instantiate
+
+            //default values for numeric up/down
+            dlg.UniverseHeight = 30;
+            dlg.UniverseWidth = 30;
 
             if (DialogResult.OK == dlg.ShowDialog()) //checking if the action is cancelled by the user
             {
