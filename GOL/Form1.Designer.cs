@@ -391,8 +391,8 @@ namespace GOL
             // toolStripStatusLabelTimerInterval
             // 
             this.toolStripStatusLabelTimerInterval.Name = "toolStripStatusLabelTimerInterval";
-            this.toolStripStatusLabelTimerInterval.Size = new System.Drawing.Size(105, 17);
-            this.toolStripStatusLabelTimerInterval.Text = "Timer Interval = 30";
+            this.toolStripStatusLabelTimerInterval.Size = new System.Drawing.Size(117, 17);
+            this.toolStripStatusLabelTimerInterval.Text = "    Timer Interval = 30";
             // 
             // contextMenuStrip1
             // 
@@ -401,7 +401,7 @@ namespace GOL
             this.View,
             this.optionsToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(117, 70);
             // 
             // colorToolStripMenuItem
             // 
@@ -473,8 +473,8 @@ namespace GOL
             // speedToolStripMenuItem
             // 
             this.speedToolStripMenuItem.Name = "speedToolStripMenuItem";
-            this.speedToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.speedToolStripMenuItem.Text = "Change Timer Interval";
+            this.speedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.speedToolStripMenuItem.Text = "Change Timer";
             this.speedToolStripMenuItem.Click += new System.EventHandler(this.speedToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem1
@@ -483,7 +483,7 @@ namespace GOL
             this.resizeUniverseToolStripMenuItem1,
             this.changeTimerIntervalToolStripMenuItem});
             this.optionsToolStripMenuItem1.Name = "optionsToolStripMenuItem1";
-            this.optionsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem1.Size = new System.Drawing.Size(116, 22);
             this.optionsToolStripMenuItem1.Text = "&Options";
             // 
             // resizeUniverseToolStripMenuItem1
@@ -497,7 +497,7 @@ namespace GOL
             // 
             this.changeTimerIntervalToolStripMenuItem.Name = "changeTimerIntervalToolStripMenuItem";
             this.changeTimerIntervalToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.changeTimerIntervalToolStripMenuItem.Text = "Change Timer Interval";
+            this.changeTimerIntervalToolStripMenuItem.Text = "&Change Timer";
             this.changeTimerIntervalToolStripMenuItem.Click += new System.EventHandler(this.speedToolStripMenuItem_Click);
             // 
             // newToolStripButton

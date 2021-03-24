@@ -26,14 +26,14 @@ namespace GOL
         bool[,] scratchPad = new bool[30, 30];
         bool[,] temp = new bool[30, 30];
 
-        // Toroidal bool (paint and nextgen)
+        // Toroidal bool
         bool isToroidal = true;
 
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.DarkSlateGray;
 
-        //Bool for grid
+        // Grid bool
         bool isGridVisible = true;
 
         // The Timer class
@@ -231,6 +231,7 @@ namespace GOL
         private void ResizeUniverse(int newWidth, int newHeight)
         {
             universe = new bool[newWidth, newHeight]; //just call new
+            scratchPad = new bool[newWidth, newHeight];
         }
 
         #region Count Neighbors
@@ -365,6 +366,7 @@ namespace GOL
                 }
             }
             generations = 0;
+            ResizeUniverse(30, 30); //resize to default size of 30
             graphicsPanel1.Invalidate(); //call for click events
         }
         #endregion
@@ -394,9 +396,10 @@ namespace GOL
             }
             graphicsPanel1.Invalidate();
         }
+
         private void speedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TimerDLG dlg = new TimerDLG(); //instantiate
+            TimerDLG dlg = new TimerDLG();
             dlg.TimerInterval = timer.Interval; //sets to same value as current interval
 
             if (DialogResult.OK == dlg.ShowDialog()) 
