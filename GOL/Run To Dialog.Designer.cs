@@ -84,7 +84,7 @@ namespace GOL
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Run_To_Dialog";
-            this.Text = "Run_To_Dialog";
+            this.Text = "Run To";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

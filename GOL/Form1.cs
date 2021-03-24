@@ -152,7 +152,7 @@ namespace GOL
                         stringFormat.LineAlignment = StringAlignment.Center;
 
                         RectangleF rect = new RectangleF(0, 0, 100, 100);
-                        int neighbors = 8;
+                        int neighbors;
 
                         e.Graphics.DrawString(cellRect.ToString(), graphicsPanel1.Font, Brushes.Black, rect, stringFormat);
                         #endregion
@@ -160,7 +160,6 @@ namespace GOL
 
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
-
                 }
             }
 
@@ -364,6 +363,7 @@ namespace GOL
                     scratchPad[x, y] = false;
                 }
             }
+            generations = 0;
             graphicsPanel1.Invalidate(); //call for click events
         }
         #endregion
@@ -473,18 +473,16 @@ namespace GOL
         private void toToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Run_To_Dialog dlg = new Run_To_Dialog();
+            timer.Enabled = true;
 
             dlg.PickGeneration = generations;
 
             if (DialogResult.OK == dlg.ShowDialog())
-            {
-                timer.Enabled = true;
-
+            {               
                 if (generations == dlg.PickGeneration)
                     timer.Enabled = false;
-
-                graphicsPanel1.Invalidate();
             }
+            graphicsPanel1.Invalidate();
         }
         #endregion
 
