@@ -11,10 +11,16 @@
     <Setting Name="GridColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="DefaultUniverse" Type="System.Boolean" Scope="User">
+    <Setting Name="DefaultBoundary" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Timer" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="Generations" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="UniverseSize" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
   </Settings>

@@ -62,12 +62,12 @@ namespace GOL.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefaultUniverse {
+        public bool DefaultBoundary {
             get {
-                return ((bool)(this["DefaultUniverse"]));
+                return ((bool)(this["DefaultBoundary"]));
             }
             set {
-                this["DefaultUniverse"] = value;
+                this["DefaultBoundary"] = value;
             }
         }
         
@@ -80,6 +80,30 @@ namespace GOL.Properties {
             }
             set {
                 this["Timer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Generations {
+            get {
+                return ((int)(this["Generations"]));
+            }
+            set {
+                this["Generations"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int UniverseSize {
+            get {
+                return ((int)(this["UniverseSize"]));
+            }
+            set {
+                this["UniverseSize"] = value;
             }
         }
     }

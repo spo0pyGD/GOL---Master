@@ -13,9 +13,8 @@ namespace GOL
 {
     public partial class Form1 : Form
     {
-        //HUD number and color to render in paint
-        int number = 100;
-        Color numColor = Color.Red;        
+        //HUD Color
+        Color hudColor = Color.Red;   
 
         //Fixed Seed
         int seed = 1011110;
@@ -26,9 +25,9 @@ namespace GOL
         bool[,] temp = new bool[30, 30];
 
         int countNbr = 0;
+        string boundaryType = " Toroidal ";
 
         // View menu bools
-        bool defaultUniverse = true;
         bool isToroidal = true;
         bool isHUDVisible = true;
         bool viewNbr = true;
@@ -69,7 +68,6 @@ namespace GOL
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     scratchPad[x, y] = false;
-                    //int countNbr = CountNeighborsToroidal(x, y); //returns neighbor count (moved outside of loop)
 
                     if (isToroidal)
                         countNbr = CountNeighborsToroidal(x, y);
@@ -114,12 +112,6 @@ namespace GOL
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            #region Transparent text HUD
-            //Red 100
-            //Brush numBrush = new SolidBrush(numColor);
-            //e.Graphics.DrawString(number.ToString(), graphicsPanel1.Font, numBrush, new Point(0, ClientRectangle.Height - 175 ));
-            #endregion
-
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             float cellWidth = (float)graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0);
@@ -146,11 +138,9 @@ namespace GOL
                     cellRect.Height = cellHeight;
 
                     #region Display neighbor count in cell
-
-                    if (isToroidal) // So I can use both universe types
-                        countNbr = CountNeighborsToroidal(x, y);
-                    else
-                        countNbr = CountNeighborsFinite(x, y);
+                    // So I can use both universe types
+                    if (isToroidal) countNbr = CountNeighborsToroidal(x, y);
+                    else countNbr = CountNeighborsFinite(x, y);
 
                     StringFormat stringFormat = new StringFormat();
                     stringFormat.Alignment = StringAlignment.Center;
@@ -171,25 +161,13 @@ namespace GOL
                     {
                         if (countNbr != 0) //leaving out 0 because clutter
                         {
-                            if (countNbr < 2 || countNbr > 3) e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.Red, cellRect, stringFormat); //dead cell = red font
-                            else e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);                    //Otherwise, font is green
+                            if (universe[x,y] == true && countNbr == 2 || countNbr == 3)                                                      //If cell will live
+                                e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.LightGreen, cellRect, stringFormat);  //Font is green
+                            else                                                                                                              //Otherwise,
+                                e.Graphics.DrawString(countNbr.ToString(), graphicsPanel1.Font, Brushes.Red, cellRect, stringFormat);         //Font is red
                         }
                     }
                 }
-            }
-
-            if (isHUDVisible)
-            {
-                //draw HUD
-                Brush hudBrush = new SolidBrush(numColor);
-                Font hudFont = new Font("Arial", 17f);
-
-                string hudGen = "Generations = " + generations.ToString();
-                string hudLivingCells = "Living Cells = " + CountLivingCells().ToString();
-                string hudTimer = "Timer Interval (ms) = " + timer.Interval.ToString();
-                e.Graphics.DrawString(hudGen.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 175 ));
-                e.Graphics.DrawString(hudLivingCells.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 200 ));
-                e.Graphics.DrawString(hudTimer.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 225 ));              
             }
 
             #region Thicker grid lines    
@@ -207,6 +185,25 @@ namespace GOL
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(thickPen, gridRect.X, gridRect.Y, gridRect.Width, gridRect.Height);
                 }
+            }
+            #endregion
+
+            #region HUD           
+            if (isHUDVisible)
+            {
+                //draw HUD
+                Brush hudBrush = new SolidBrush(hudColor);
+                Font hudFont = new Font("Arial", 14f);
+
+                string hudGen = "Generations = " + generations.ToString();
+                string hudLivingCells = "Living Cells = " + CountLivingCells().ToString();
+                string hudTimer = "Timer Interval (ms) = " + timer.Interval.ToString();
+                string hudBoundary = "Boundary Type = " + boundaryType.ToString();
+
+                e.Graphics.DrawString(hudGen.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 100));
+                e.Graphics.DrawString(hudLivingCells.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 125));
+                e.Graphics.DrawString(hudTimer.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 150));
+                e.Graphics.DrawString(hudBoundary.ToString(), hudFont, hudBrush, new Point(0, ClientRectangle.Height - 175));
             }
             #endregion
 
@@ -345,21 +342,9 @@ namespace GOL
                 }
             }
             generations = 0;
-            ResizeUniverse(30, 30); //resize to default size of 30
-            graphicsPanel1.Invalidate(); //call for click events
-        }
-        #endregion
-
-        #region Switching between toroidal and finite
-
-        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
             isToroidal = true;
-        }
 
-        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            isToroidal = false;
+            graphicsPanel1.Invalidate(); //call for click events
         }
         #endregion
 
@@ -445,7 +430,7 @@ namespace GOL
         }
         #endregion
 
-        #region Resetting settings
+        #region Settings
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -454,6 +439,11 @@ namespace GOL
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
             timer.Interval = Properties.Settings.Default.Timer;
+            //isToroidal = Properties.Settings.Default.DefaultBoundary;
+            generations = Properties.Settings.Default.Generations;
+            universe = new bool[Properties.Settings.Default.UniverseSize, Properties.Settings.Default.UniverseSize];
+
+            graphicsPanel1.Invalidate();
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -463,6 +453,11 @@ namespace GOL
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
             timer.Interval = Properties.Settings.Default.Timer;
+            //isToroidal = Properties.Settings.Default.DefaultBoundary;
+            generations = Properties.Settings.Default.Generations;
+            universe = new bool[Properties.Settings.Default.UniverseSize, Properties.Settings.Default.UniverseSize];
+
+            graphicsPanel1.Invalidate();
         }
         #endregion      
 
@@ -663,6 +658,25 @@ namespace GOL
         }
         #endregion
 
+        #region View Menu
+
+        #region Switching between toroidal and finite
+
+        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isToroidal = true;
+            boundaryType = " Toroidal ";
+            graphicsPanel1.Invalidate();
+        }
+
+        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isToroidal = false;
+            boundaryType = " Finite ";
+            graphicsPanel1.Invalidate();
+        }
+        #endregion
+
         //View grid
         //I want to figure out a way to do this by turning off/clearing the grid pen instead
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
@@ -695,5 +709,6 @@ namespace GOL
             else if (!isHUDVisible) isHUDVisible = true;
             graphicsPanel1.Invalidate();
         }
+        #endregion
     }
 }
