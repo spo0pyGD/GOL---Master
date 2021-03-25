@@ -176,7 +176,7 @@ namespace GOL
             {
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    RectangleF gridRect = RectangleF.Empty;
+                    RectangleF gridRect = RectangleF.Empty;     //Every 10 cells
                     gridRect.X = x * cellWidth * 10;
                     gridRect.Y = y * cellHeight * 10;
                     gridRect.Width = cellWidth * 10;
@@ -546,16 +546,12 @@ namespace GOL
                 // Iterate through the file once to get its size.
                 while (!reader.EndOfStream)
                 {                   
-                    string row = reader.ReadLine();                                 // Read one row at a time.
+                    string row = reader.ReadLine();                      // Read one row at a time.
 
-                    //if (row.Substring(0 , row.Length) == "!") continue;              // If the row begins with '!' then it is a comment and should be ignored. (continue)
-                    //else if (row.Substring(0 , row.Length) != "!") maxHeight++;      // If the row is not a comment then it is a row of cells. Increment the maxHeight variable for each row read.
-                    if (row[0] == '!') continue;
-                    else if (row[0] != '!') maxHeight++;
+                    if (row[0] == '!') continue;                         // If the row begins with '!' then it is a comment and should be ignored. (continue)
+                    if (row[0] != '!') maxHeight++;                      // If the row is not a comment then it is a row of cells. Increment the maxHeight variable for each row read.
 
-                    maxWidth = row.Length;                                              // Get the length of the current row string (? come back to this)
-                    
-                    //if (maxHeight != maxWidth) maxHeight = maxWidth;                    // and adjust the maxWidth variable if necessary.
+                    maxWidth = row.Length;                               // Get the length of the current row string and adjust the maxWidth variable if necessary.
                 }
 
                 // Resize the current universe and scratchPad (call new) to the width and height of the file calculated above.
@@ -571,12 +567,12 @@ namespace GOL
                     string row = reader.ReadLine();                                 // Read one row at a time.
 
                     if (row[0] == '!') continue;                                    // If the row begins with '!' then it is a comment and should be ignored. (continue)        //changed from row.Substring(0,row.length)              
-                    else if (row[0] != '!')                                         // If the row is not a comment then it is a row of cells and needs to be iterated through.
+                    if (row[0] != '!')                                              // If the row is not a comment then it is a row of cells and needs to be iterated through.
                     {
-                        for (int xPos = 0; xPos < row.Length; xPos++)
+                        for (int xPos = 0; xPos < row.Length; xPos++) // iterate
                         {
                            if (row[xPos] == 'O') universe[xPos, yPos] = true;       // If row[xPos] is a 'O' (capital O) then set the corresponding cell in the universe to alive.
-                           else if (row[xPos] == '.') universe[xPos, yPos] = false; // If row[xPos] is a '.' (period) then set the corresponding cell in the universe to dead.
+                           if (row[xPos] == '.') universe[xPos, yPos] = false;      // If row[xPos] is a '.' (period) then set the corresponding cell in the universe to dead.
                         }
                     }                
                 }              
