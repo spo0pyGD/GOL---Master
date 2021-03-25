@@ -106,5 +106,17 @@ namespace GOL.Properties {
                 this["UniverseSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CountNeighbor {
+            get {
+                return ((int)(this["CountNeighbor"]));
+            }
+            set {
+                this["CountNeighbor"] = value;
+            }
+        }
     }
 }

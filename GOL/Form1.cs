@@ -65,7 +65,7 @@ namespace GOL
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
+                for (int x = 0; x < universe.GetLength(0); x++)                                            //<=
                 {
                     scratchPad[x, y] = false;
 
@@ -251,6 +251,8 @@ namespace GOL
         {
             universe = new bool[newWidth, newHeight]; //just call new
             scratchPad = new bool[newWidth, newHeight];
+
+            graphicsPanel1.Invalidate();
         }
 
         #region Count Neighbors
@@ -439,9 +441,11 @@ namespace GOL
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
             timer.Interval = Properties.Settings.Default.Timer;
-            //isToroidal = Properties.Settings.Default.DefaultBoundary;
+            isToroidal = Properties.Settings.Default.DefaultBoundary;
             generations = Properties.Settings.Default.Generations;
+            countNbr = Properties.Settings.Default.CountNeighbor;
             universe = new bool[Properties.Settings.Default.UniverseSize, Properties.Settings.Default.UniverseSize];
+            scratchPad = new bool[Properties.Settings.Default.UniverseSize, Properties.Settings.Default.UniverseSize]; //forgetting the scratchPad made it crash
 
             graphicsPanel1.Invalidate();
         }
@@ -453,9 +457,11 @@ namespace GOL
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
             timer.Interval = Properties.Settings.Default.Timer;
-            //isToroidal = Properties.Settings.Default.DefaultBoundary;
+            isToroidal = Properties.Settings.Default.DefaultBoundary;
             generations = Properties.Settings.Default.Generations;
+            countNbr = Properties.Settings.Default.CountNeighbor;
             universe = new bool[Properties.Settings.Default.UniverseSize, Properties.Settings.Default.UniverseSize];
+            scratchPad = new bool[Properties.Settings.Default.UniverseSize, Properties.Settings.Default.UniverseSize];
 
             graphicsPanel1.Invalidate();
         }
