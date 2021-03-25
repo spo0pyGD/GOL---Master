@@ -32,7 +32,6 @@ namespace GOL
             this.labelSeed = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonRandomize = new System.Windows.Forms.Button();
             this.numericUpDownSeed = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeed)).BeginInit();
             this.SuspendLayout();
@@ -49,7 +48,7 @@ namespace GOL
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(224, 89);
+            this.buttonCancel.Location = new System.Drawing.Point(87, 82);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -59,21 +58,12 @@ namespace GOL
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(143, 89);
+            this.buttonOK.Location = new System.Drawing.Point(6, 82);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 2;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
-            // 
-            // buttonRandomize
-            // 
-            this.buttonRandomize.Location = new System.Drawing.Point(198, 37);
-            this.buttonRandomize.Name = "buttonRandomize";
-            this.buttonRandomize.Size = new System.Drawing.Size(75, 23);
-            this.buttonRandomize.TabIndex = 3;
-            this.buttonRandomize.Text = "Randomize";
-            this.buttonRandomize.UseVisualStyleBackColor = true;
             // 
             // numericUpDownSeed
             // 
@@ -91,9 +81,8 @@ namespace GOL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(301, 117);
+            this.ClientSize = new System.Drawing.Size(247, 121);
             this.Controls.Add(this.numericUpDownSeed);
-            this.Controls.Add(this.buttonRandomize);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.labelSeed);
@@ -114,7 +103,6 @@ namespace GOL
         private System.Windows.Forms.Label labelSeed;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
-        private System.Windows.Forms.Button buttonRandomize;
         private System.Windows.Forms.NumericUpDown numericUpDownSeed;
     }
 }

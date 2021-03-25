@@ -65,7 +65,7 @@ namespace GOL
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)                                            //<=
+                for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     scratchPad[x, y] = false;
 
