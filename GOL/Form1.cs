@@ -210,7 +210,7 @@ namespace GOL
             // Cleaning up pens and brushes
             gridPen.Dispose();
             cellBrush.Dispose();
-            thickPen.Dispose();
+            thickPen.Dispose();          
         }
 
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
@@ -549,9 +549,9 @@ namespace GOL
                     string row = reader.ReadLine();                      // Read one row at a time.
 
                     if (row[0] == '!') continue;                         // If the row begins with '!' then it is a comment and should be ignored. (continue)
-                    if (row[0] != '!') maxHeight++;                      // If the row is not a comment then it is a row of cells. Increment the maxHeight variable for each row read.
-
-                    maxWidth = row.Length;                               // Get the length of the current row string and adjust the maxWidth variable if necessary.
+                    if (row[0] != '!') maxHeight++;                    // If the row is not a comment then it is a row of cells. Increment the maxHeight variable for each row read.
+                    
+                    maxWidth = row.Length;                               // Get the length of the current row string and adjust the maxWidth variable if necessary.             
                 }
 
                 // Resize the current universe and scratchPad (call new) to the width and height of the file calculated above.
@@ -574,6 +574,7 @@ namespace GOL
                            if (row[xPos] == 'O') universe[xPos, yPos] = true;       // If row[xPos] is a 'O' (capital O) then set the corresponding cell in the universe to alive.
                            if (row[xPos] == '.') universe[xPos, yPos] = false;      // If row[xPos] is a '.' (period) then set the corresponding cell in the universe to dead.
                         }
+                        yPos++;
                     }                
                 }              
                 reader.Close(); // Close the file.
