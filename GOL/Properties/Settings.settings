@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="BackColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">White</Value>
+      <Value Profile="(Default)">MediumOrchid</Value>
     </Setting>
     <Setting Name="CellColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">0, 64, 64</Value>
+      <Value Profile="(Default)">Purple</Value>
     </Setting>
     <Setting Name="GridColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Black</Value>
+      <Value Profile="(Default)">Indigo</Value>
     </Setting>
     <Setting Name="DefaultBoundary" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

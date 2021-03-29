@@ -33,8 +33,8 @@ namespace GOL
         bool viewNbr = true;
 
         // Drawing colors
-        Color gridColor = Color.Black;
-        Color cellColor = Color.DarkSlateGray;
+        Color gridColor = Color.Indigo;
+        Color cellColor = Color.Purple;
 
         // Grid bool
         bool isGridVisible = true;
